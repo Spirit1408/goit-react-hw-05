@@ -6,6 +6,7 @@
 .backBtn {
     margin-top: 15px;
     color: var(--background-color);
+    border-radius: 5px;
 }
 
 .movieTitle {
