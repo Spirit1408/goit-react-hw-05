@@ -1,6 +1,7 @@
 import MovieList from "../../components/MovieList/MovieList";
 import { searchMovies } from "../../api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import css from "./MoviesPage.module.css";
 import { HiSearch } from "react-icons/hi";
 import { GrNext, GrPrevious } from "react-icons/gr";
@@ -8,46 +9,46 @@ import { Loader } from "../../components/Loader/Loader";
 
 export default function MoviesPage() {
 	const [movies, setMovies] = useState([]);
-	const [query, setQuery] = useState("");
-	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [isSearched, setIsSearched] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const query = searchParams.get("query") || "";
+	const page = parseInt(searchParams.get("page")) || 1;
 
-	const handleSubmit = async (e) => {
+	useEffect(() => {
+		if (!query) return;
+
+		const fetchMovies = async () => {
+			try {
+				setLoading(true);
+				const { results, totalPages } = await searchMovies(query, page);
+				setMovies(results);
+				setTotalPages(totalPages);
+				setIsSearched(true);
+			} catch (error) {
+				console.log(error.message);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchMovies();
+	}, [query, page]);
+
+	const handleSubmit = (e) => {
 		e.preventDefault();
-
 		const form = e.target;
-		const newQuery = form.elements.searchInput.value;
-		setQuery(newQuery);
-		setPage(1);
+		const newQuery = form.elements.searchInput.value.trim();
 
-		try {
-			setLoading(true);
-			const { results, totalPages } = await searchMovies(newQuery, 1);
-			setMovies(results);
-			setTotalPages(totalPages);
-			setIsSearched(true);
-		} catch (error) {
-			console.log(error.message);
-		} finally {
-			setLoading(false);
-		}
+		if (newQuery === "") return;
 
+		setSearchParams({ query: newQuery, page: 1 });
 		form.reset();
 	};
 
-	const handlePageChange = async (newPage) => {
-		try {
-			setLoading(true);
-			const { results } = await searchMovies(query, newPage);
-			setMovies(results);
-			setPage(newPage);
-		} catch (error) {
-			console.log(error.message);
-		} finally {
-			setLoading(false);
-		}
+	const handlePageChange = (newPage) => {
+		setSearchParams({ query, page: newPage });
 	};
 
 	return (
@@ -59,6 +60,7 @@ export default function MoviesPage() {
 					type="text"
 					name="searchInput"
 					placeholder="What movie do you want to find?"
+					defaultValue={query}
 				/>
 				<button type="submit" className={css.formBtn}>
 					<HiSearch size={25} />
@@ -69,9 +71,9 @@ export default function MoviesPage() {
 				<Loader />
 			) : (
 				<>
-					{isSearched && isSearched && movies?.length === 0 && (
+					{isSearched && movies.length === 0 && (
 						<p className={css.warning}>
-							Sorry, no movies was found with `{query}` request
+							Sorry, no movies were found with `{query}` request
 						</p>
 					)}
 

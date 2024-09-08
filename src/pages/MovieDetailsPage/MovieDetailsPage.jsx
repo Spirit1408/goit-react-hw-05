@@ -6,7 +6,7 @@ import {
 	useParams,
 } from "react-router-dom";
 import { getMovieDetails } from "../../api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import { Loader } from "../../components/Loader/Loader";
 import css from "./MovieDetailsPage.module.css";
@@ -16,7 +16,7 @@ export default function MovieDetailsPage() {
 	const [movie, setMovie] = useState(null);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const previousPage = location?.state?.from || "/movies";
+	const previousPageRef = useRef(location.state?.from || "/movies");
 
 	useEffect(() => {
 		const fetchMovieDetails = async () => {
@@ -40,7 +40,7 @@ export default function MovieDetailsPage() {
 			<button
 				className={css.backBtn}
 				type="button"
-				onClick={() => navigate(previousPage)}
+				onClick={() => navigate(previousPageRef.current)}
 			>
 				Go back
 			</button>
@@ -134,7 +134,7 @@ export default function MovieDetailsPage() {
 					<NavLink
 						className={css.link}
 						to="cast"
-						state={{ from: previousPage }}
+						state={{ from: previousPageRef.current }}
 					>
 						Cast
 					</NavLink>
@@ -143,7 +143,7 @@ export default function MovieDetailsPage() {
 					<NavLink
 						className={css.link}
 						to="reviews"
-						state={{ from: previousPage }}
+						state={{ from: previousPageRef.current }}
 					>
 						Reviews
 					</NavLink>
