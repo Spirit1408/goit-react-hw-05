@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMovieCredits } from "../../api";
 import { useParams } from "react-router-dom";
+import css from "./MovieCast.module.css";
 
 export default function MovieCast() {
 	const { movieId } = useParams();
@@ -10,9 +11,9 @@ export default function MovieCast() {
 		cinematographers: [],
 		soundDesigners: [],
 		screenwriters: [],
+		composers: [],
 	});
 	const [totalCastCount, setTotalCastCount] = useState(0);
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchMovieCredits = async () => {
@@ -20,7 +21,6 @@ export default function MovieCast() {
 				const data = await getMovieCredits(movieId);
 				const castList = data.cast;
 				const crewList = data.crew;
-
 				const displayedCast = castList.slice(0, 10);
 				const additionalActorsCount = castList.length - displayedCast.length;
 
@@ -39,7 +39,6 @@ export default function MovieCast() {
 				const screenwriters = crewList.filter(
 					(member) => member.job === "Writer",
 				);
-
 				const composers = crewList.filter(
 					(member) => member.job === "Composer",
 				);
@@ -53,103 +52,114 @@ export default function MovieCast() {
 				});
 			} catch (error) {
 				console.error(error.message);
-			} finally {
-				setLoading(false);
 			}
 		};
 
 		fetchMovieCredits();
 	}, [movieId]);
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
 	return (
 		<div>
-			<h2>Movie Cast and Crew</h2>
+			<h2 className={css.title}>Movie Cast and Crew</h2>
+			<div className={css.container}>
+				<div className={css.column}>
+					<h3 className={css.crewTitle}>Crew</h3>
 
-			<div>
-				<h3>Directors</h3>
-				{crew.directors.length === 0 ? (
-					<p>No directors available</p>
-				) : (
-					<ul>
-						{crew.directors.map((director) => (
-							<li key={director.id}>{director.name}</li>
-						))}
-					</ul>
-				)}
-			</div>
+					<ul className={css.makersList}>
+						<li className={css.maker}>
+							<div>
+								<h3>Directors</h3>
+								{crew.directors.length === 0 ? (
+									<p>No directors available</p>
+								) : (
+									<ul>
+										{crew.directors.map((director) => (
+											<li key={director.id}>{director.name}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						</li>
 
-			<div>
-				<h3>Cinematographers</h3>
-				{crew.cinematographers.length === 0 ? (
-					<p>No cinematographers available</p>
-				) : (
-					<ul>
-						{crew.cinematographers.map((cinematographer) => (
-							<li key={cinematographer.id}>{cinematographer.name}</li>
-						))}
-					</ul>
-				)}
-			</div>
+						<li className={css.maker}>
+							<div>
+								<h3>Cinematographers</h3>
+								{crew.cinematographers.length === 0 ? (
+									<p>No cinematographers available</p>
+								) : (
+									<ul>
+										{crew.cinematographers.map((cinematographer) => (
+											<li key={cinematographer.id}>{cinematographer.name}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						</li>
 
-			<div>
-				<h3>Sound Designers</h3>
-				{crew.soundDesigners.length === 0 ? (
-					<p>No sound designers available</p>
-				) : (
-					<ul>
-						{crew.soundDesigners.map((soundDesigner) => (
-							<li key={soundDesigner.id}>{soundDesigner.name}</li>
-						))}
-					</ul>
-				)}
-			</div>
+						<li className={css.maker}>
+							<div>
+								<h3>Sound Designers</h3>
+								{crew.soundDesigners.length === 0 ? (
+									<p>No sound designers available</p>
+								) : (
+									<ul>
+										{crew.soundDesigners.map((soundDesigner) => (
+											<li key={soundDesigner.id}>{soundDesigner.name}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						</li>
 
-			<div>
-				<h3>Screenwriters</h3>
-				{crew.screenwriters.length === 0 ? (
-					<p>No screenwriters available</p>
-				) : (
-					<ul>
-						{crew.screenwriters.map((screenwriter) => (
-							<li key={screenwriter.id}>{screenwriter.name}</li>
-						))}
-					</ul>
-				)}
-			</div>
+						<li className={css.maker}>
+							<div>
+								<h3>Screenwriters</h3>
+								{crew.screenwriters.length === 0 ? (
+									<p>No screenwriters available</p>
+								) : (
+									<ul>
+										{crew.screenwriters.map((screenwriter) => (
+											<li key={screenwriter.id}>{screenwriter.name}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						</li>
 
-			<div>
-				<h3>Composers</h3>
-				{crew.composers.length === 0 ? (
-					<p>No composers available</p>
-				) : (
-					<ul>
-						{crew.composers.map((composer) => (
-							<li key={composer.id}>{composer.name}</li>
-						))}
+						<li className={css.maker}>
+							<div>
+								<h3>Composers</h3>
+								{crew.composers.length === 0 ? (
+									<p>No composers available</p>
+								) : (
+									<ul>
+										{crew.composers.map((composer) => (
+											<li key={composer.id}>{composer.name}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						</li>
 					</ul>
-				)}
-			</div>
+				</div>
 
-			<div>
-				<h3>Cast</h3>
-				{cast.length === 0 ? (
-					<p>No cast information available</p>
-				) : (
-					<ul>
-						{cast.map((actor) => (
-							<li key={actor.id}>
-								<p>
-									{actor.name} as {actor.character}
-								</p>
-							</li>
-						))}
-					</ul>
-				)}
-				{totalCastCount > 0 && <p>And {totalCastCount} more actors</p>}
+				<div className={css.column}>
+					<h3 className={css.castTitle}>Cast</h3>
+					{cast.length === 0 ? (
+						<p>No cast information available</p>
+					) : (
+						<ul className={css.castList}>
+							{cast.map((actor) => (
+								<li className={css.cast} key={actor.id}>
+									<p>
+										{actor.name} as <span>{actor.character}</span>
+									</p>
+								</li>
+							))}
+						</ul>
+					)}
+					{totalCastCount > 0 && <p>And {totalCastCount} more actors</p>}
+				</div>
 			</div>
 		</div>
 	);

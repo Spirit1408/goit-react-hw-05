@@ -1,0 +1,43 @@
+.title {
+    background-color: rgb(48, 47, 47);
+    padding: 15px;
+    position: relative;
+}
+
+.logo {
+    font-size: 30px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+}
+
+.subLogo {
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    color: var(--background-color);
+    font-weight: bold;
+    display: inline;
+    padding: 2px;
+    margin-left: 4px;
+}
+
+.navContainer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.link {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    padding: 8px;
+}
+
+.link:hover {
+    background-color: #e68a00;
+    text-decoration: none;
+}

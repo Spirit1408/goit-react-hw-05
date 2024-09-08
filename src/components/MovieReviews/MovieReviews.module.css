@@ -1,0 +1,27 @@
+.title {
+    text-align: center;
+}
+
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review {
+    background-color: #333;
+    padding: 1rem;
+    border-radius: 4px;
+    h4 {
+        color: var(--accent-color);
+        margin: 0 0 15px 0;
+    }
+    p {
+        color: var(--muted-text-color);
+        margin: 0;
+    }
+}
+
+.warning {
+    text-align: center;
+}

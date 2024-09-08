@@ -1,0 +1,39 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.movie {
+    background-color: #2b2b2b;
+    padding: 1rem;
+    border-radius: 4px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    width: calc((100% - 15px) / 2);
+    display: flex;
+    align-items: center;
+}
+
+.movie:hover {
+    transform: scale(1.01);
+}
+
+.movieCard {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.movieTitle {
+    color: var(--accent-color);
+}
+
+.movieInfo {
+    color: var(--muted-text-color);
+}
+
+.warning {
+    text-align: center;
+    margin: 0 auto;
+}

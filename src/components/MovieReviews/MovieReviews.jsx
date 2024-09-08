@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieReviews } from "../../api";
+import css from "./MovieReviews.module.css";
 
 export default function MovieReviews() {
 	const { movieId } = useParams();
@@ -8,23 +9,29 @@ export default function MovieReviews() {
 
 	useEffect(() => {
 		const fetchReviews = async () => {
-			const data = await getMovieReviews(movieId);
-			setReviews(data);
+			try {
+				const data = await getMovieReviews(movieId);
+				setReviews(data);
+			} catch (error) {
+				console.error(error.message);
+			}
 		};
 
 		fetchReviews();
 	}, [movieId]);
 
 	if (reviews.length === 0) {
-		return <p>No reviews to show</p>;
+		return <p className={css.warning}>No reviews to show</p>;
 	}
 
-	return (
+	return reviews.length === 0 ? (
+		<p className={css.warning}>No reviews to show</p>
+	) : (
 		<div>
-			<h2>Reviews</h2>
-			<ul>
+			<h2 className={css.title}>Reviews</h2>
+			<ul className={css.reviewsList}>
 				{reviews.map((review) => (
-					<li key={review.id}>
+					<li className={css.review} key={review.id}>
 						<h4>Author: {review.author}</h4>
 						<p>{review.content}</p>
 					</li>

@@ -1,0 +1,40 @@
+.title {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    min-width: 300px;
+    margin: 10px;
+}
+
+.makersList,
+.castList {
+    padding: 0;
+}
+
+.maker,
+.cast {
+    margin-bottom: 15px;
+}
+
+.cast p,
+.maker p {
+    margin: 0;
+}
+
+.castTitle,
+.crewTitle {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.castList span {
+    color: var(--accent-color);
+}

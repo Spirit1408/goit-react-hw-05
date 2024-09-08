@@ -1,0 +1,72 @@
+.moviesContainer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.title {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.form {
+    display: flex;
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.input {
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #2b2b2b;
+    color: var(--accent-color);
+    outline: none;
+    width: 300px;
+}
+
+.formBtn {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    color: var(--accent-color);
+    border: none;
+    cursor: pointer;
+    &:hover {
+        background-color: unset;
+    }
+}
+
+.warning {
+    text-align: center;
+    color: var(--accent-color);
+}
+
+.pagBtns {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .pagInfo {
+        color: var(--accent-color);
+    }
+    .pagBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        margin: 0;
+        padding: 5px;
+        border-radius: 50%;
+        color: var(--background-color);
+        &:hover {
+            background-color: #e68a00;
+        }
+    }
+}

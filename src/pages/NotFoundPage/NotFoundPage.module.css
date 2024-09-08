@@ -1,0 +1,19 @@
+.title {
+    text-align: center;
+}
+
+.button {
+    display: block;
+    padding: 15px;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    border-radius: 5px;
+    margin: 0 auto;
+    transition: background-color 250ms ease;
+    text-align: center;
+    width: fit-content;
+
+    &:hover {
+        background-color: #e68a00;
+    }
+}

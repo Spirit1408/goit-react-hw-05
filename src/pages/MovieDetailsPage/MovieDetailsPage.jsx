@@ -8,6 +8,8 @@ import {
 import { getMovieDetails } from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import { Loader } from "../../components/Loader/Loader";
+import css from "./MovieDetailsPage.module.css";
 
 export default function MovieDetailsPage() {
 	const { movieId } = useParams();
@@ -30,70 +32,119 @@ export default function MovieDetailsPage() {
 	}, [movieId]);
 
 	if (!movie) {
-		return <div>Loading...</div>;
+		return <Loader />;
 	}
 
 	return (
-		<div>
-			<button type="button" onClick={() => navigate(previousPage)}>
+		<div className={css.movie}>
+			<button
+				className={css.backBtn}
+				type="button"
+				onClick={() => navigate(previousPage)}
+			>
 				Go back
 			</button>
 
-			<h1>{movie.title}</h1>
+			<h1 className={css.movieTitle}>{movie.title}</h1>
 
-			<p>{movie.overview}</p>
+			<div className={css.movieWrapper}>
+				<img
+					className={css.poster}
+					src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+					alt={movie.title}
+				/>
 
-			<img
-				src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-				alt={movie.title}
-			/>
+				<div>
+					<p className={css.movieDescr}>{movie.overview}</p>
 
-			<h2>Slogan</h2>
-			<p>{movie.tagline}</p>
+					<ul className={css.infoList}>
+						<li>
+							<h2 className={css.subTitle}>Slogan</h2>
+							<p className={css.slogan}>{movie.tagline}</p>
+						</li>
 
-			<h2>Age restrictions</h2>
-			{!movie.adult ? <p>No age restrictions</p> : <p>18+</p>}
+						<li>
+							<h2 className={css.subTitle}>Age restrictions</h2>
+							{!movie.adult ? (
+								<p className={css.info}>No age restrictions</p>
+							) : (
+								<p className={css.info}>18+</p>
+							)}
+						</li>
 
-			<h2>Genres</h2>
-			<ul>
-				{movie.genres.map((genre) => (
-					<li key={genre.id}>{genre.name}</li>
-				))}
-			</ul>
+						<li>
+							<h2 className={css.subTitle}>Genres</h2>
+							<ul className={css.genres}>
+								{movie.genres.map((genre) => (
+									<li className={css.genre} key={genre.id}>
+										{genre.name}
+									</li>
+								))}
+							</ul>
+						</li>
 
-			<h2>Release</h2>
-			<p>{movie.release_date.slice(0, 4)}</p>
+						<li>
+							<h2 className={css.subTitle}>Release</h2>
+							<p className={css.info}>{movie.release_date.slice(0, 4)}</p>
+						</li>
 
-			<h2>Country</h2>
-			{movie.production_countries.map((country) => (
-				<p key={nanoid()}>{country.name}</p>
-			))}
+						<li>
+							<h2 className={css.subTitle}>Country</h2>
+							{movie.production_countries.map((country) => (
+								<p key={nanoid()} className={css.info}>
+									{country.name}
+								</p>
+							))}
+						</li>
 
-			<h2>Budget</h2>
-			<p>{movie.budget.toLocaleString("en-US")}</p>
+						<li>
+							<h2 className={css.subTitle}>Budget</h2>
+							<p className={css.info}>{movie.budget.toLocaleString("en-US")}</p>
+						</li>
 
-			<h2>Revenue</h2>
-			<p>{movie.revenue.toLocaleString("en-US")}</p>
+						<li>
+							<h2 className={css.subTitle}>Revenue</h2>
+							<p className={css.info}>
+								{movie.revenue.toLocaleString("en-US")}
+							</p>
+						</li>
 
-			<h2>Duration</h2>
-			<p>
-				{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
-			</p>
+						<li>
+							<h2 className={css.subTitle}>Duration</h2>
+							<p className={css.info}>
+								{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
+							</p>
+						</li>
 
-			<h2>Votes</h2>
-			<p>{movie.vote_count}</p>
+						<li>
+							<h2 className={css.subTitle}>Votes</h2>
+							<p className={css.info}>{movie.vote_count}</p>
+						</li>
 
-			<h2>Avaliation</h2>
-			<p>{movie.vote_average.toFixed(1)}</p>
+						<li>
+							<h2 className={css.subTitle}>Avaliation</h2>
+							<p className={css.info}>{movie.vote_average.toFixed(1)}</p>
+						</li>
+					</ul>
+				</div>
+			</div>
 
-			<ul>
+			<ul className={css.links}>
 				<li>
-					<NavLink to="cast" state={{ from: previousPage }}>
+					<NavLink
+						className={css.link}
+						to="cast"
+						state={{ from: previousPage }}
+					>
 						Cast
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to="reviews" state={{ from: previousPage }}>
+					<NavLink
+						className={css.link}
+						to="reviews"
+						state={{ from: previousPage }}
+					>
 						Reviews
 					</NavLink>
 				</li>
